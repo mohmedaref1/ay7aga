@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static '' %}css/all.min.css">
+    <link rel="stylesheet" href="{% static '' %}css/reg.css">
+    <title>Sign Up</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+            <h1>Registration</h1>
+    <form method="post" action="/reg">
+        {% csrf_token %}
+        <div class="form-group">
+            <!-- <label for="username">Username</label> -->
+            <i class="fa-solid fa-user"></i>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Create A Username (use only letters and numbers)" Required>
+        </div>
+        <div class="form-group">
+            <!-- <label for="fname">First Name</label> -->
+            <i class="fa-solid fa-user"></i>
+            <input type="text" class="form-control" id="fname" name="fname" placeholder="Enter Your First Name" Required>
+        </div>
+        <div class="form-group">
+            <!-- <label for="lname">Last Name</label> -->
+            <i class="fa-solid fa-user"></i>
+            <input type="text" class="form-control" id="lname" name="lname" placeholder="Enter Your Last Name" Required>
+        </div>
+        <div class="form-group">
+            <!-- <label for="email">Email</label> -->
+            <i class="fa-solid fa-envelope"></i>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email Address" Required>
+        </div>
+        <div class="form-group">
+            <!-- <label for="pass1">Password</label> -->
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" class="form-control" id="pass1" name="pass1" placeholder="Create Your Password" Required>
+        </div>
+        <div class="form-group">
+            <!-- <label for="pass2">Confirm Password</label> -->
+            <i class="fa-solid fa-lock"></i>
+            <input type="password" class="form-control" id="pass2" name="pass2" placeholder="Confirm Your Password" Required>
+        </div>
+        <button type="submit" class="btn btn-primary submits">Sign Up</button>
+    </form>
+    </div>
+    </div>
+</body>
+</html>

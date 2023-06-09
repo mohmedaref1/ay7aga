@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+{% load static %}
+    <link rel="stylesheet" href="{% static '' %}css/all.min.css">
+    <link rel="stylesheet" href="{% static '' %}css/status.css">
+
+    <title>test</title>
+</head>
+<body>
+    <div class="container">
+        <div class="box">
+    {%for message in messages %}
+<div class="alert alert-{{message.tag}} alert-dismissible fade show" role="alert"></div>
+<h2> Message{{message}}</h2>
+{%endfor%}
+
+    {%if user.is_authenticated%}
+
+    <h4> hello! {{fname}}</h4>
+    <h3>you are logged in</h3>
+    <a href = "{%url 'logout' %}" ><button class="logOut">logout</button></a>
+</div>
+</div>
+    {%else %}
+    <h4>log in plz kalba </h4>
+    <a href = "{%url 'loginn' %}" ><button >login</button></a>
+    {%endif%}
+
+</body>
+</html>

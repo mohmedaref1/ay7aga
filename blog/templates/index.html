@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    .preview {
+        display: inline-block;
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 5px;
+    }
+
+    .pdf-embed {
+        width: 100%;
+        height: 350px;
+        border: none;
+    }
+
+    .image-preview {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .website-preview {
+        display: flex;
+        align-items: center;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .website-preview img {
+        max-width: 50px;
+        max-height: 50px;
+        margin-right: 10px;
+    }
+
+    .website-preview p {
+        margin: 0;
+    }
+
+    .viewer-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .viewer-overlay video,
+    .viewer-overlay audio {
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    video {
+        width: 100%;
+    }
+
+    .preview {
+        width: 100%;
+    }
+
+    p.website-info {
+        width: 90%;
+        cursor: pointer;
+    }
+</style>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Document</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static '' %}css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{% static '' %}css/nav.css" />
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"
+        integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+
+    <link href="{% static '' %}fontawesome-free-6.4.0-web/css/fontawesome.css" rel="stylesheet">
+    <link href="{% static '' %}fontawesome-free-6.4.0-web/css/brands.css" rel="stylesheet">
+    <link href="{% static '' %}fontawesome-free-6.4.0-web/css/solid.css" rel="stylesheet">
+
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="{% static '' %}css/aside.css">
+
+    <!----===== Boxicons CSS ===== -->
+    <link href="{% static '' %}boxicons-2.1.4/css/boxicons.min.css" rel='stylesheet'>
+    <link rel="stylesheet" href="{% static '' %}css/bootstrap.min.css">
+
+</head>
+
+<body>
+
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <!--<img src="logo.png" alt="">-->
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Lecture Suumary</span>
+                    <span class="profession">Summariction</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+
+        <div class="menu-bar">
+            <div class="menu">
+
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="./index">
+                            <i class='bx bx-home-alt icon'></i>
+                            <span class="text nav-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-user icon'></i>
+                            <span class="text nav-text">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-link">
+                        <a href="./status">
+                            <i class='bx bx-bar-chart-alt-2 icon'></i>
+                            <span class="text nav-text">Status</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bxs-megaphone icon'></i>
+                            <span class="text nav-text">What's New</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="#">
+                            <i class='bx bx-pie-chart-alt icon'></i>
+                            <span class="text nav-text">Analytics</span>
+                        </a>
+                    </li>
+
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="./logout">
+                        <i class='bx bx-log-out icon'></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+
+                <li class="mode">
+                    <div class="sun-moon">
+                        <i class='bx bx-moon icon'></i>
+                        <i class='bx bx-sun icon'></i>
+                    </div>
+                    <span class="mode-text text">Dark mode</span>
+
+                    <div class="toggle-switch">
+                        <div class="form-check form-switch">
+                            <input type="checkbox" class="form-check-input" id="darkSwitch">
+                        </div>
+                    </div>
+                </li>
+
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div
+            style="display: flex;height: 100vh;align-content: flex-start;flex-direction: column;max-width: 1600px;margin: auto;">
+            <div id="chatbot">
+                {%for chat in chats %}
+                <p class="userText"><span>{{chat.massages}}</span></p>
+                <p class="botText"><span>{{chat.replay}}</span></p>
+                {%endfor %}
+                <br>
+                <p style="text-align:center;font-size: 18px;font-family: arial;" class="text">_______________ Welcome
+                    Back _______________</p>
+                <br>
+                <br>
+
+            </div>
+
+            <div id="userInput" class="userInput">
+                <div style="height: 100%;display: flex;align-content: center;right: 5px;position: relative;">
+                    <div class="wrapper">
+                        <div class="file-upload">
+                            <input type="file" accept="application/pdf,audio/*, video/*;" id="fileInput" />
+                            <i class="fa fa-paperclip" style="font-size: 25px;"></i>
+                        </div>
+                    </div>
+                </div>
+                <div id="textAreaContainer"
+                    style="height: 100%;display: flex;align-content: center;width: 88%;justify-content: center;">
+                    <textarea id="textInput" class="textInput" name="userMessage" placeholder="Type your message..."
+                        rows="1" autofocus="autofocus" oninput="autoResizeTextArea()"></textarea>
+                </div>
+                <div id="fileContainer" style="display:none;">
+                    <div id="fileInfo"></div>
+                    <button id="cancelFileBtn">Cancel</button>
+                </div>
+                <button type="submit" id="buttonInput" class="btnSend">
+                    <span>Send</span>
+                    <i class="fa fa-paper-plane" style="margin-left: 5px;"></i>
+                </button>
+
+            </div>
+
+        </div>
+    </section>
+
+    <script>
+        const body = document.querySelector('body'),
+            sidebar = body.querySelector('nav'),
+            toggle = body.querySelector(".toggle"),
+            searchBtn = body.querySelector(".search-box"),
+            modeSwitch = body.querySelector(".toggle-switch"),
+            modeText = body.querySelector(".mode-text");
+
+
+        toggle.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
+        })
+
+        searchBtn.addEventListener("click", () => {
+            sidebar.classList.remove("close");
+        })
+
+        modeSwitch.addEventListener("click", () => {
+            body.classList.toggle("dark");
+
+            if (body.classList.contains("dark")) {
+                modeText.innerText = "Light mode";
+            } else {
+                modeText.innerText = "Dark mode";
+
+            }
+        });
+    </script>
+
+
+</body>
+
+
+<script>
+    function createPreview(link) {
+        const preview = document.createElement("div");
+        preview.classList.add("preview");
+
+        // Check if it's a video link
+        if (link.match(/\.(mp4|ogg|webm)$/i)) {
+            const videoPreview = document.createElement("video");
+            videoPreview.src = link;
+            videoPreview.controls = true;
+
+            preview.appendChild(videoPreview);
+        }
+        // Check if it's a PDF link
+        else if (link.match(/\.(pdf)$/i)) {
+            const pdfEmbed = document.createElement("embed");
+            pdfEmbed.src = link;
+            pdfEmbed.type = "application/pdf";
+            pdfEmbed.classList.add("pdf-embed");
+            preview.appendChild(pdfEmbed);
+        }
+        // Check if it's an image link
+        else if (link.match(/\.(jpeg|jpg|gif|png)$/i)) {
+            const imagePreview = document.createElement("img");
+            imagePreview.src = link;
+            imagePreview.classList.add("image-preview");
+            preview.appendChild(imagePreview);
+        }
+        // Check if it's an audio link
+        else if (link.match(/\.(mp3|ogg|wav)$/i)) {
+            const audioPreview = document.createElement("audio");
+            audioPreview.src = link;
+            audioPreview.controls = true;
+
+            preview.appendChild(audioPreview);
+        }
+        // Assume it's a website link or a normal web link
+        else {
+            const websitePreview = document.createElement("a");
+            websitePreview.href = link;
+            websitePreview.target = "_blank";
+            websitePreview.classList.add("website-preview");
+
+            const websiteIcon = document.createElement("img");
+            websiteIcon.alt = "Website Icon";
+            websiteIcon.classList.add("website-icon");
+            const url = `https://s2.googleusercontent.com/s2/favicons?domain_url=${encodeURIComponent(link)}`;
+            websiteIcon.src = url;
+
+            const websiteInfo = document.createElement("p");
+            websiteInfo.classList.add("website-info");
+            const pagetitle = 'http://textance.herokuapp.com/title/'+link
+            websiteInfo.innerText = pagetitle;
+            $.ajax({
+            url: pagetitle,
+            complete: function(data) {
+            websiteInfo.innerText =data.responseText;
+            },error: function(e) {
+            websiteInfo.innerText = link;
+            }
+            });
+
+            websitePreview.appendChild(websiteIcon);
+            websitePreview.appendChild(websiteInfo);
+            preview.appendChild(websitePreview);
+
+            // Apply CSS style to break long link into a new line
+            websitePreview.style.wordWrap = "break-word";
+        }
+
+        return preview;
+    }
+
+    function showVideoViewer(videoUrl) {
+        const viewerOverlay = document.createElement("div");
+        viewerOverlay.classList.add("viewer-overlay");
+
+        const videoViewer = document.createElement("video");
+        videoViewer.src = videoUrl;
+        videoViewer.controls = true;
+
+        const closeButton = document.createElement("div");
+        closeButton.classList.add("close-button");
+        closeButton.innerText = "x";
+        closeButton.addEventListener("click", () => {
+            viewerOverlay.remove();
+        });
+
+        viewerOverlay.appendChild(videoViewer);
+        viewerOverlay.appendChild(closeButton);
+        document.body.appendChild(viewerOverlay);
+    }
+
+    function extractLinks(text) {
+        const linkRegex = /(?:(?:https?:\/\/)|(?:www\.))([^\s]+)/g;
+        const links = text.match(linkRegex) || [];
+        const extractedText = text.replace(linkRegex, "<preview></preview>");
+        return {
+            extractedText,
+            links
+        };
+    }
+
+
+// Function to get the web page title from a URL
+function getPageTitle(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(xhr.responseText, 'text/html');
+          const titleElement = htmlDoc.querySelector('title');
+          const pageTitle = titleElement ? titleElement.textContent : '';
+          resolve(pageTitle);
+        } else {
+          reject(new Error('Failed to retrieve the web page.'));
+        }
+      }
+    };
+    xhr.open('GET', url, true);
+    xhr.send();
+  });
+}
+
+
+
+    function addLinkPreviews() {
+        const userTextElements = document.getElementsByClassName("userText");
+        const botTextElements = document.getElementsByClassName("botText");
+
+        for (const element of userTextElements) {
+            const text = element.getElementsByTagName("span")[0].innerText;
+            const {
+                extractedText,
+                links
+            } = extractLinks(text);
+            element.getElementsByTagName("span")[0].innerHTML = extractedText;
+
+            for (const link of links) {
+                const preview = createPreview(link);
+                element.appendChild(preview);
+            }
+        }
+
+        for (const element of botTextElements) {
+            const text = element.getElementsByTagName("span")[0].innerText;
+            const {
+                extractedText,
+                links
+            } = extractLinks(text);
+            element.getElementsByTagName("span")[0].innerHTML = extractedText;
+
+            for (const link of links) {
+                const preview = createPreview(link);
+                element.appendChild(preview);
+            }
+        }
+    }
+
+    addLinkPreviews();
+</script>
+
+
+<script>
+    const fileInput = document.getElementById("fileInput");
+    const textAreaContainer = document.getElementById("textAreaContainer");
+    const fileContainer = document.getElementById("fileContainer");
+    const fileInfo = document.getElementById("fileInfo");
+    const cancelFileBtn = document.getElementById("cancelFileBtn");
+
+    fileInput.addEventListener("change", function () {
+        if (fileInput.files.length > 0) {
+            // Hide text area container and show file container
+            textAreaContainer.style.display = "none";
+            fileContainer.style.display = "flex";
+
+            // Display file name and size
+            const file = fileInput.files[0];
+            fileInfo.innerText = `Selected file: ${file.name} (${formatSizeUnits(file.size)})`;
+        }
+    });
+
+    cancelFileBtn.addEventListener("click", function () {
+        // Reset file input and show text area container
+        fileInput.value = "";
+        textAreaContainer.style.display = "flex";
+        fileContainer.style.display = "none";
+    });
+
+    // Helper function to format file size
+    function formatSizeUnits(bytes) {
+        if (bytes >= 1073741824) { // gigabyte
+            bytes = (bytes / 1073741824).toFixed(2) + ' GB';
+        } else if (bytes >= 1048576) { // megabyte
+            bytes = (bytes / 1048576).toFixed(2) + ' MB';
+        } else if (bytes >= 1024) { // kilobyte
+            bytes = (bytes / 1024).toFixed(2) + ' KB';
+        } else if (bytes > 1) { // bytes
+            bytes = bytes + ' bytes';
+        } else if (bytes === 1) {
+            bytes = bytes + ' byte';
+        } else { // empty
+            bytes = '';
+        }
+        return bytes;
+    }
+</script>
+
+<script>
+    // Get the text input element and submit button element
+    const textInput = document.getElementById("textInput");
+    const buttonInput = document.getElementById("buttonInput");
+    const chatbotDiv = document.getElementById("chatbot");
+
+    // Function to scroll the chatbot div to the bottom
+    function scrollToBottom() {
+        chatbotDiv.scrollTop = chatbotDiv.scrollHeight - chatbotDiv.clientHeight;
+    }
+
+    // Add an event listener for the "keydown" event on the text input
+    textInput.addEventListener("keydown", function (event) {
+        // If the user presses the Enter key (key code 13) while not holding the Shift key
+        if (event.keyCode === 13 && !event.shiftKey) {
+            // Prevent the default behavior (inserting a new line)
+            event.preventDefault();
+            // Click the submit button programmatically
+            buttonInput.click();
+            // Scroll to the bottom of the chatbot div
+            scrollToBottom();
+        }
+    });
+
+    // Add an event listener for the "click" event on the submit button
+    buttonInput.addEventListener("click", function (event) {
+        // Scroll to the bottom of the chatbot div
+        scrollToBottom();
+    });
+</script>
+
+
+<script>
+function getUserResponse() {
+    var userText = $("#textInput").val().trim();
+    var inputLength = userText.length;
+
+    var file = $("#fileInput")[0].files[0];
+
+    if (inputLength < 2 && !file) {
+        return;
+    }
+
+    var formData = new FormData();
+    if (file) {
+        formData.append("file", file);
+    } else {
+        formData.append("userMessage", userText);
+    }
+
+    $.ajax({
+        url: '/blog/getResponse',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            var returnedMessage = "<p class='userText'><span>";
+            if (file) {
+                returnedMessage += "<a href='" + data.file_link + "'>" + data.file_link + "</a>";
+            } else {
+                returnedMessage += userText;
+            }
+            returnedMessage += "</span></p>";
+            returnedMessage += "<p class='botText'><span>" + data.response + "</span></p>";
+            $('#chatbot').append(returnedMessage);
+            scrollToBottom();
+        }
+    });
+
+    $('#textInput').val("");
+    $("#fileInput").val("");
+}
+
+$('#buttonInput').click(function() {
+    getUserResponse();
+});
+
+
+
+
+
+</script>
+
+
+<script>
+    $(document).ready(function () {
+        scrollToBottom();
+    });
+</script>
+
+<script>
+    let previousValue = '';
+
+    function autoResizeTextArea() {
+        const textArea = document.getElementById('textInput');
+        if (textArea.value !== previousValue) {
+            previousValue = textArea.value;
+            textArea.style.height = 'auto';
+            textArea.style.height = textArea.scrollHeight + 'px';
+        }
+    }
+</script>
+
+<script>
+    const toggleSwitch = document.querySelector('.toggle-switch input[type="checkbox"]');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-theme', currentTheme);
+
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }
+    }
+
+    toggleSwitch.addEventListener('change', switchTheme, false);
+</script>
+
+
+</html>
